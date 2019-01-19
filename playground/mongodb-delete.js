@@ -22,7 +22,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017/TodoApp', (err, client) => {
     //     console.log(result); 
     // });
 
-    db.collection('Users').deleteMany({name: 'Trideep'}).then((result) => {
+    db.collection('todos').deleteMany({text: 'Teest'}).then((result) => {
         console.log(result); 
     });
 
