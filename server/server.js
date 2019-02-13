@@ -36,15 +36,6 @@ app.get('/todos', (req, res) => {
 app.get('/todos/:id', (req, res) => {
     var id = req.params.id;
 
-    /**One way of writing it below */
-
-    // if (!ObjectID.isValid(id)) {
-    //     (e) => {res.status(404).send(e);}
-    // }
-
-
-    /**Second way below */
-
     if (!ObjectID.isValid(id)) {
         return res.status(404).send();
     }
@@ -70,7 +61,7 @@ app.get('/todos/:id', (req, res) => {
     }).catch((e) => res.status(400).send());
 });
 
-app.listen(3000, () => {
+app.listen(3, () => {
     console.log('Started on port 3000');
 });
 
