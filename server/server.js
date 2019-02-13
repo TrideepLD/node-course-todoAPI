@@ -1,6 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
+const {ObjectID} = require('mongodb');
+
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
@@ -28,6 +30,44 @@ app.get('/todos', (req, res) => {
     }, (e) => {
         res.status(400).send(e);
     });
+});
+
+//GET todos
+app.get('/todos/:id', (req, res) => {
+    var id = req.params.id;
+
+    /**One way of writing it below */
+
+    // if (!ObjectID.isValid(id)) {
+    //     (e) => {res.status(404).send(e);}
+    // }
+
+
+    /**Second way below */
+
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send();
+    }
+
+    /**One way to write this below */
+
+    // Todo.findById(id).then((todos) => {
+    //     res.send({todos})
+    //     if (!todos) {
+    //         return res.status(404).send();//Note to send error without body you type it like this oryou know, remove the 'e' in .send()
+    //     } else {console.log('Todo By Id', todos);}
+    // }, (e) => {
+    //     res.status(400).send(e);
+    // }).catch((e) => res.status(400).send());
+
+    /**Second way to write this code below */
+
+    Todo.findById(id).then((todos) => {
+        if (!todos) {
+            return res.status(404).send();
+        }
+        res.send({todos});
+    }).catch((e) => res.status(400).send());
 });
 
 app.listen(3000, () => {
