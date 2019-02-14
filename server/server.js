@@ -62,12 +62,42 @@ app.get('/todos/:id', (req, res) => {
     }).catch((e) => res.status(400).send());
 });
 
+app.delete('/todos/:id', (req, res) => {
+    var id = req.params.id;
+
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send();
+    }
+
+    Todo.findByIdAndRemove(id).then((todo) => {
+        if (!todo) {
+            return res.status(404).send();
+        }
+        res.send({todo});
+    }).catch((e) => res.status(400).send());
+
+    // remove todo by id
+        //success
+            //if no doc, send 404
+            //if doc, send doc back with a 200
+        //error
+            // sending back 400 with emoty body
+});
+
 app.listen(port, () => {
     console.log(`Started up at port ${port}`);
 });
 
 module.exports = {app};
 
+
+
+
+
+/**everything below is just something else slightly connected to the app
+ * its not really of much concern as of now.
+ * Also needs to be look at again and understood in a weeks time
+ */
 // mongoose.Promise = global.Promise;
 // mongoose.connect('mongodb://localhost:27017/TodoApp')
 
