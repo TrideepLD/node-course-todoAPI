@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
-//resource collection below
+/**The snippet of code down below to to post things */
 app.post('/todos', (req, res) => {
     var todo = new Todo({
         text: req.body.text
@@ -25,6 +25,7 @@ app.post('/todos', (req, res) => {
     });
 });
 
+/** Snippet ddown below to the get or fetch the data */
 app.get('/todos', (req, res) => {
     Todo.find().then((todos) => {
         res.send({todos})
@@ -33,7 +34,7 @@ app.get('/todos', (req, res) => {
     });
 });
 
-//GET todos
+//GET todos/:id
 app.get('/todos/:id', (req, res) => {
     var id = req.params.id;
 
@@ -62,6 +63,9 @@ app.get('/todos/:id', (req, res) => {
     }).catch((e) => res.status(400).send());
 });
 
+/**Delete the things by id
+ * DELETE /todos/:id
+ */
 app.delete('/todos/:id', (req, res) => {
     var id = req.params.id;
 
@@ -84,6 +88,8 @@ app.delete('/todos/:id', (req, res) => {
             // sending back 400 with emoty body
 });
 
+
+/**Choosing the port */
 app.listen(port, () => {
     console.log(`Started up at port ${port}`);
 });
@@ -97,6 +103,7 @@ module.exports = {app};
 /**everything below is just something else slightly connected to the app
  * its not really of much concern as of now.
  * Also needs to be look at again and understood in a weeks time
+ * just like the rest of the code.
  */
 // mongoose.Promise = global.Promise;
 // mongoose.connect('mongodb://localhost:27017/TodoApp')

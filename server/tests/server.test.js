@@ -98,3 +98,46 @@ describe('GET /todos/:id', () => {
     .end(done);
   })
 });
+
+describe('DELETE /todos/:id', () => {
+  it('should remove a todo', (done) => {
+      var hexId = todos[1]._id.toHexString();
+      
+      request(app)
+          .delete(`/todos/${hexId}`)
+          .expect(200)
+          .expect((res) => {
+              expect(res.body.todo._id).toBe(hexId);
+          })
+          .end((err, res) => {
+              if (err) {
+                  return done(err);
+              }
+
+              /** what happens below is actually quering database using findById and then checking to see if it exist
+               * In the course it says to use toNotExist but you have to use toBeFalsy or not.toBeTruthy() due to upgraded api.
+               */
+              Todo.findById(hexId).then((todo) => {
+                expect(todo).toBeFalsy();
+                done();
+              }).catch((e) => done(e));
+
+          });
+  });
+
+  it('should return 404 if todo not found', (done) => {
+    var hexID = new ObjectID().toHexString();
+
+    request(app)
+    .delete(`/todos/${hexID}`)
+    .expect(404)
+    .end(done);
+  });
+
+  it('should return 404 if object id is invalid', (done) => {
+    request(app)
+    .delete('/todos/123abc')
+    .expect(404)
+    .end(done);
+  });
+});
