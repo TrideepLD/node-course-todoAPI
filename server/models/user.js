@@ -44,7 +44,7 @@ UserSchema.methods.toJSON = function () {
 UserSchema.methods.generateAuthToken = function () {
     var user = this;
     var access = 'auth';
-    var token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
+    var token = jwt.sign({_id: user._id.toHexString(), access}, '123abc').toString();
 
     //next like local user model is called but not saved so we're gonna save it in the next line
     user.tokens = user.tokens.concat([{access, token}]);
@@ -52,6 +52,26 @@ UserSchema.methods.generateAuthToken = function () {
     return user.save().then(() => {
         return token;
     })
+};
+//Instance method - get called with individual doc
+UserSchema.statics.findByToken = function (token) {
+    var User = this;
+    var decoded;
+
+    try {
+        decoded = jwt.verify(token, '123abc');
+    } catch (e) {
+        // return new Promise((resolve, reject) => {
+        //     reject();
+        // }); this is a longer version of the code down below to help understand wtf happens
+        return Promise.reject(); //This kinda makes it so you get error and next bit of code doesnt run
+    }
+
+    return User.findOne({
+       '_id': decoded._id,
+       'tokens.token': token,
+       'tokens.access': 'auth' 
+    });
 };
 
 var User = mongoose.model('User', UserSchema);
