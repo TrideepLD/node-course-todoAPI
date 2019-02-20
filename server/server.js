@@ -1,5 +1,6 @@
 require('./config/config')
 
+const jwt = require('jsonwebtoken');
 const _ = require('lodash')
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -16,6 +17,7 @@ const port = process.env.PORT;
 app.use(bodyParser.json());
 
 /**The snippet of code down below to to post things */
+//POST todos/
 app.post('/todos', (req, res) => {
     var todo = new Todo({
         text: req.body.text
@@ -29,6 +31,7 @@ app.post('/todos', (req, res) => {
 });
 
 /** Snippet ddown below to the get or fetch the data */
+//GET todos/
 app.get('/todos', (req, res) => {
     Todo.find().then((todos) => {
         res.send({todos})
@@ -118,6 +121,26 @@ app.patch('/todos/:id', (req, res) => {
     })
 });
 
+
+// POST /users
+//Fucking checking to see if I just retype the whole thing will it work now
+//Whatd'ya know that works
+
+app.post('/users', (req, res) => {
+    //use pick method
+    var body = _.pick(req.body, ['email', 'password']);
+    var user = new User(body);
+    
+    
+
+    return user.save().then(() => {
+        return user.generateAuthToken();
+    }).then((token) => {
+        res.header('x-auth', token).send(user);
+    }).catch((e) => {
+        res.status(400).send(e);
+    })
+});
 
 /**Choosing the port */
 app.listen(port, () => {
