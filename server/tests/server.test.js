@@ -5,21 +5,13 @@ const {ObjectID} = require('mongodb');
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
 
-const todos = [{
-  _id: new ObjectID(),
-  text: 'First test todo'
-}, {
-  _id: new ObjectID(),
-  text: 'Second test todo',
-  completed: true,
-  completedAt: 333
-}]
+beforeEach(populateUsers);
+beforeEach(populateTodos);
 
-beforeEach((done) => {
-  Todo.remove({}).then(() => {
-    return Todo.insertMany(todos);
-  }).then(() => done());
-});
+/**There is a situation where the tests wont pass and therefore there are 2 options:
+ * 1) In config.js u can change localhost to 127.0.0.7
+ * 2) In package.json you can make the mocha test server time out to be like so mocha --timeout 10000 server/sdsa
+ */
 
 describe('POST /todos', () => {
   it('should create a new todo', (done) => {

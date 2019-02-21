@@ -45,9 +45,12 @@ UserSchema.methods.toJSON = function () {
 UserSchema.methods.generateAuthToken = function () {
     var user = this;
     var access = 'auth';
-    var token = jwt.sign({_id: user._id.toHexString(), access}, '123abc').toString();
+    var token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
 
-    //next like local user model is called but not saved so we're gonna save it in the next line
+    /**next like local user model is called but not saved so we're gonna save it in the next line
+     * There is also compatibility issues with the code in the course so this is updated
+     * Note: I believe it to be backwards compatibilty although it might also be platform or os compatibility
+     */
     user.tokens = user.tokens.concat([{access, token}]);
 
     return user.save().then(() => {
@@ -60,12 +63,13 @@ UserSchema.statics.findByToken = function (token) {
     var decoded;
 
     try {
-        decoded = jwt.verify(token, '123abc');
+        decoded = jwt.verify(token, 'abc123');
     } catch (e) {
         // return new Promise((resolve, reject) => {
         //     reject();
         // }); this is a longer version of the code down below to help understand wtf happens
-        return Promise.reject(); //This kinda makes it so you get error and next bit of code doesnt run
+        return Promise.reject(); 
+        //This kinda makes it so you get error and next bit of code doesnt run
     }
 
     return User.findOne({
@@ -77,7 +81,7 @@ UserSchema.statics.findByToken = function (token) {
 
 UserSchema.pre('save', function (next) {
     var user = this;
-    //checking down below if pass is verified or changed i forgot
+    //checking down below if pass is verified or changed
     if (user.isModified('password')) {
         
         bcrypt.genSalt(10, (err, salt) => {

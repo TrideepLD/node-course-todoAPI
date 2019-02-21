@@ -1,4 +1,4 @@
-require('./config/config')
+require('./config/config');
 
 const jwt = require('jsonwebtoken');
 const _ = require('lodash')
@@ -150,7 +150,7 @@ app.get('/users/me', authenticate, (req, res) => {
 /**Choosing the port */
 app.listen(port, () => {
     console.log(`Started up at port ${port}`);
-});
+  });
 
 module.exports = {app};
 
