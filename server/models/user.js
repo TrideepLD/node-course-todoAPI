@@ -81,7 +81,7 @@ UserSchema.statics.findByToken = function (token) {
 
 UserSchema.statics.findByCredentials = function (email, password) {
     var User = this;
-    //til we are putting return cause we're putting a 'then' call
+    //TIL we are putting return cause we're putting a 'then' call
     return User.findOne({email}).then((user) => {
         if (!user) {
             return Promise.reject();
