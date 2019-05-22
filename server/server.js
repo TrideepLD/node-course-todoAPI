@@ -19,9 +19,10 @@ app.use(bodyParser.json());
 
 /**The snippet of code down below to to post things */
 //POST todos/
-app.post('/todos', (req, res) => {
+app.post('/todos', authenticate, (req, res) => {
     var todo = new Todo({
-        text: req.body.text
+        text: req.body.text,
+        _creator: req.user._id
     })
 
     todo.save().then((doc) => {
@@ -33,8 +34,10 @@ app.post('/todos', (req, res) => {
 
 /** Snippet ddown below to the get or fetch the data */
 //GET todos/
-app.get('/todos', (req, res) => {
-    Todo.find().then((todos) => {
+app.get('/todos', authenticate, (req, res) => {
+    Todo.find({
+        _creator: req.user._id
+    }).then((todos) => {
         res.send({todos})
     }, (e) => {
         res.status(400).send(e);
