@@ -1,12 +1,12 @@
 # My Node.JS course
 Basically me learning how to Node.JS
 
-##What to do when starting this:
+## What to do when starting this:
 Upon initial download:
     a)Create a file to store the database(I've called it mongo-data)
     b)Remeber file path to the database folder(hopefully in the same drive as the robomongo)
 
-##After creation:
+## After creation:
     a)Download MongoDB/RoboMongo
     b)traverse to downloaded file in any terminal
     c)run mongod.exe and set the database path to your database safe/database folder(mine is mongo-data)
@@ -27,7 +27,7 @@ Example:*NEW TERMINAL*
                 node server/server.js
 
 
-##Making todo routes private - 23/5/2019
+## Making todo routes private - 23/5/2019
     First thing was to update todo model. If todo is associateed with user there needed a way to associate with the user
     That happens in todo with creation of the user and in this case the object property _creator
     Once that was created, we added authentication of the two routes
@@ -35,4 +35,4 @@ Example:*NEW TERMINAL*
     or we fetch todo but only the ones of the currently logged in users.
     this lets us know wtf to do
     
-###P.S I should really work on this more like really gotta private the todo models but that shall be done eventually
+### P.S I should really work on this more like really gotta private the todo models but that shall be done eventually
