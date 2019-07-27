@@ -15,7 +15,8 @@ Upon initial download:
     d)traverse to node-todo-api in terminal
     e)Run according to package.json
     
-```Example:*NEW TERMINAL* 
+``` 
+Example:*NEW TERMINAL* 
             cd /MongoDB/server/4.0/bin
                 mongod.exe -dbpath /Users/user/mongo-data
         *NEW TERMINAL*
