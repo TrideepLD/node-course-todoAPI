@@ -14,7 +14,8 @@ Upon initial download:
     e)Open another terminal.
     d)traverse to node-todo-api in terminal
     e)Run according to package.json
-Example:*NEW TERMINAL* 
+    
+```Example:*NEW TERMINAL* 
             cd /MongoDB/server/4.0/bin
                 mongod.exe -dbpath /Users/user/mongo-data
         *NEW TERMINAL*
@@ -25,7 +26,7 @@ Example:*NEW TERMINAL*
                 npm test
                 ^c
                 node server/server.js
-
+```
 
 ## Making todo routes private - 23/5/2019
     First thing was to update todo model. If todo is associateed with user there needed a way to associate with the user
